@@ -1,11 +1,13 @@
 using Todo.Data;
 using Microsoft.EntityFrameworkCore;
+using Todo.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITodoRepo, TodoRepo>();
+builder.Services.AddHttpClient<ITodoDataClient, HttpTodoDataClient>();
 
 builder.Services.AddDbContext<AppDbContext>(opt => 
         opt.UseInMemoryDatabase("InMem"));

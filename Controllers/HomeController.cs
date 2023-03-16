@@ -4,16 +4,19 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Dtos;
 using Todo.Models;
+using Todo.SyncDataServices.Http;
 
 namespace Todo.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ITodoDataClient _dataClient;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ITodoDataClient dataClient)
     {
         _logger = logger;
+        _dataClient = dataClient;
     }
 
     public IActionResult Index()
@@ -24,12 +27,7 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(TodoItemCreateDto todoItemCreateDto)
     {
-        var httpClient = new HttpClient();
-        var apiUrl = "http://localhost:5087/api/todo";
-
-        var json = JsonSerializer.Serialize(todoItemCreateDto);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync(apiUrl, content);
+        var response = await _dataClient.SendTodoItemFromWebToDb(todoItemCreateDto);
         if (response.IsSuccessStatusCode)
         {
             return RedirectToAction("");

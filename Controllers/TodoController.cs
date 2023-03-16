@@ -39,13 +39,13 @@ namespace Todo.Controllers
         public ActionResult<TodoItemCreateDto> CreateNewTodoItem(TodoItemCreateDto todoItemCreateDto)
         {
             Console.WriteLine("--> creating an item...");
-            
+
             var todoItem = _mapper.Map<TodoItem>(todoItemCreateDto);
             _repo.CreateTodoItem(todoItem);
             _repo.SaveChanges();
             var todoItemReadDto = _mapper.Map<TodoItemReadDto>(todoItem);
 
-            return CreatedAtRoute(nameof(GetTodoItemById), new {Id = todoItemReadDto.Id}, todoItemReadDto);
+            return CreatedAtRoute(nameof(GetTodoItemById), new { Id = todoItemReadDto.Id }, todoItemReadDto);
         }
     }
 }

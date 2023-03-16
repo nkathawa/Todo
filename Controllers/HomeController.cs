@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Todo.Data;
 using Todo.Dtos;
 using Todo.Models;
 using Todo.SyncDataServices.Http;
@@ -12,16 +13,19 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ITodoDataClient _dataClient;
+    private readonly AppDbContext _dbContext;
 
-    public HomeController(ILogger<HomeController> logger, ITodoDataClient dataClient)
+    public HomeController(ILogger<HomeController> logger, ITodoDataClient dataClient, AppDbContext dbContext)
     {
         _logger = logger;
         _dataClient = dataClient;
+        _dbContext = dbContext;
     }
 
     public IActionResult Index()
     {
-        return View();
+        var todoItems = _dbContext.TodoItems.ToList();
+        return View(todoItems);
     }
 
     [HttpPost]

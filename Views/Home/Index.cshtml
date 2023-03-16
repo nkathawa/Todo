@@ -1,4 +1,22 @@
-﻿@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+﻿<div class="text-center">
+    <h2>To do list</h2>
+</div>
+
+@model List<TodoItem>
+
+@foreach (var todoItem in Model)
+{
+    <div>
+        <p>@todoItem.Text</p>
+        <p>@todoItem.Status</p>
+    </div>
+}
+
+<div class="text-center">
+    <h2>Add a new item</h2>
+</div>
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -43,8 +61,3 @@
         });
     });
 </script>
-
-<div class="text-center">
-    <p>To do list</p>
-</div>
-

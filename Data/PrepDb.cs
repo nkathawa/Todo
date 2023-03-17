@@ -11,14 +11,14 @@ namespace Todo.Data
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), userManager, roleManager, isProduction);
             }
         }
 
         private static void SeedData(AppDbContext context,
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             bool isProduction)
         {
@@ -74,15 +74,17 @@ namespace Todo.Data
             }
         }
 
-        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        private static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
             if (userManager.FindByNameAsync("admin").Result == null)
             {
-                IdentityUser user = new IdentityUser
+                ApplicationUser user = new ApplicationUser
                 {
                     UserName = "admin",
                     Email = "admin@example.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    FirstName = "Bob",
+                    LastName = "Smith"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "AdminPassword123!").Result;
@@ -95,11 +97,13 @@ namespace Todo.Data
 
             if (userManager.FindByNameAsync("user").Result == null)
             {
-                IdentityUser user = new IdentityUser
+                ApplicationUser user = new ApplicationUser
                 {
                     UserName = "user",
                     Email = "user@example.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    FirstName = "Ron",
+                    LastName = "Johnson"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "UserPassword123!").Result;

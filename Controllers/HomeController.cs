@@ -16,12 +16,12 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly ITodoDataClient _dataClient;
     private readonly AppDbContext _dbContext;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public HomeController(ILogger<HomeController> logger, 
         ITodoDataClient dataClient, 
         AppDbContext dbContext,
-        UserManager<IdentityUser> userManager)
+        UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _dataClient = dataClient;
@@ -44,6 +44,7 @@ public class HomeController : Controller
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+                Console.WriteLine(user.Id);
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),

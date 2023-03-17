@@ -5,7 +5,7 @@ using Todo.Models;
 
 namespace Todo.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {

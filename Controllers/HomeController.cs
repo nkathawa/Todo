@@ -80,7 +80,7 @@ public class HomeController : Controller
         var response = await _dataClient.SendTodoItemFromWebToDb(todoItemCreateDto);
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         else
         {

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Todo.Enums;
 using Todo.Models;
@@ -8,42 +9,105 @@ namespace Todo.Data
     {
         public static void PrepPopulation(IApplicationBuilder app, bool isProduction)
         {
-            using(var serviceScope = app.ApplicationServices.CreateScope())
+            using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), isProduction);
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), userManager, roleManager, isProduction);
             }
         }
 
-        private static void SeedData(AppDbContext context, bool isProduction)
+        private static void SeedData(AppDbContext context,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            bool isProduction)
         {
-            if(isProduction)
+            SeedTodoItems(context, isProduction);
+            SeedRoles(roleManager);
+            SeedUsers(userManager);
+        }
+
+        private static void SeedTodoItems(AppDbContext context, bool isProduction)
+        {
+            if (isProduction)
             {
                 Console.WriteLine("--> applying migrations...");
                 try
                 {
                     context.Database.Migrate();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"--> Could not run migrations: {ex.Message}");
                 }
             }
 
-            if(!context.TodoItems.Any())
+            if (!context.TodoItems.Any())
             {
                 Console.WriteLine("--> Seeding data...");
 
                 context.TodoItems.AddRange(
-                    new TodoItem() {Id=1, Text="text Mom", UserId=1, Status=StatusType.OPEN},
-                    new TodoItem() {Id=2, Text="get groceries", UserId=1, Status=StatusType.OPEN},
-                    new TodoItem() {Id=3, Text="clean room", UserId=1, Status=StatusType.CLOSED}
+                    new TodoItem() { Id = 1, Text = "text Mom", UserId = 1, Status = StatusType.OPEN },
+                    new TodoItem() { Id = 2, Text = "get groceries", UserId = 1, Status = StatusType.OPEN },
+                    new TodoItem() { Id = 3, Text = "clean room", UserId = 1, Status = StatusType.CLOSED }
                 );
 
                 context.SaveChanges();
             }
             else
             {
-                Console.WriteLine("--> We already have data");
+                Console.WriteLine("--> We already have todo data");
+            }
+        }
+
+        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync("Admin").Result)
+            {
+                IdentityRole role = new IdentityRole("Admin");
+                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+            }
+            if (!roleManager.RoleExistsAsync("User").Result)
+            {
+                IdentityRole role = new IdentityRole("User");
+                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+            }
+        }
+
+        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        {
+            if (userManager.FindByNameAsync("admin").Result == null)
+            {
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = "admin",
+                    Email = "admin@example.com",
+                    EmailConfirmed = true
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "AdminPassword123!").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Admin").Wait();
+                }
+            }
+
+            if (userManager.FindByNameAsync("user").Result == null)
+            {
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = "user",
+                    Email = "user@example.com",
+                    EmailConfirmed = true
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "UserPassword123!").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "User").Wait();
+                }
             }
         }
     }

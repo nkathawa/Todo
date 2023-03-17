@@ -1,6 +1,8 @@
 using System.Diagnostics;
-using System.Text;
-using System.Text.Json;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Data;
 using Todo.Dtos;
@@ -14,13 +16,57 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly ITodoDataClient _dataClient;
     private readonly AppDbContext _dbContext;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, ITodoDataClient dataClient, AppDbContext dbContext)
+    public HomeController(ILogger<HomeController> logger, 
+        ITodoDataClient dataClient, 
+        AppDbContext dbContext,
+        UserManager<IdentityUser> userManager)
     {
         _logger = logger;
         _dataClient = dataClient;
         _dbContext = dbContext;
+        _userManager = userManager;
     }
+
+    [HttpGet]
+    public IActionResult Login(string returnUrl)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return LocalRedirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+            }
+            ModelState.AddModelError("", "Invalid username or password");
+        }
+
+        return View(model);
+    }
+
 
     public IActionResult Index()
     {

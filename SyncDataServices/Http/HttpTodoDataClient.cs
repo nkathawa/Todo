@@ -1,6 +1,8 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
 using Todo.Dtos;
+using Todo.Models;
 
 namespace Todo.SyncDataServices.Http
 {
@@ -8,15 +10,20 @@ namespace Todo.SyncDataServices.Http
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HttpTodoDataClient(HttpClient httpClient, IConfiguration configuration)
+        public HttpTodoDataClient(HttpClient httpClient, IConfiguration configuration,
+            UserManager<ApplicationUser> userManager)
         {
             _httpClient = httpClient;
             _configuration = configuration;
+            _userManager = userManager;
         }
 
         public async Task<HttpResponseMessage> SendTodoItemFromWebToDb(TodoItemCreateDto createDto)
         {
+            var userId = (await _userManager.FindByNameAsync("Admin")).Id;
+            createDto.UserId = userId;
             var httpContent = new StringContent(
                 JsonSerializer.Serialize(createDto),
                 Encoding.UTF8,

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Data;
 using Todo.Dtos;
@@ -12,11 +13,13 @@ namespace Todo.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ITodoRepo _repo;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TodoController(IMapper mapper, ITodoRepo repo)
+        public TodoController(IMapper mapper, ITodoRepo repo, UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _repo = repo;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -36,12 +39,14 @@ namespace Todo.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TodoItemCreateDto> CreateNewTodoItem(TodoItemCreateDto todoItemCreateDto)
+        public async Task<ActionResult<TodoItemCreateDto>> CreateNewTodoItem(TodoItemCreateDto todoItemCreateDto)
         {
             Console.WriteLine("--> creating an item...");
 
             var todoItem = _mapper.Map<TodoItem>(todoItemCreateDto);
-            _repo.CreateTodoItem(todoItem);
+            var userId = (await _userManager.FindByNameAsync("Admin")).Id;
+
+            _repo.CreateTodoItem(todoItem, userId);
             _repo.SaveChanges();
             var todoItemReadDto = _mapper.Map<TodoItemReadDto>(todoItem);
 

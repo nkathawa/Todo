@@ -11,14 +11,21 @@ namespace Todo.Data
             _context = context;
         }
 
-        public void CreateTodoItem(TodoItem todoItem)
+        public void CreateTodoItem(TodoItem todoItem, string userId)
         {
+            todoItem = AddUserIdToTodoItem(todoItem, userId);
             if (todoItem == null)
             {
                 throw new ArgumentNullException(nameof(todoItem));
             }
 
             _context.TodoItems.Add(todoItem);
+        }
+
+        private TodoItem AddUserIdToTodoItem(TodoItem todoItem, string userId)
+        {
+            todoItem.UserId = userId;
+            return todoItem;
         }
 
         public IEnumerable<TodoItem> GetAllTodoItems()

@@ -47,9 +47,9 @@ namespace Todo.Data
                 Console.WriteLine("--> Seeding data...");
 
                 context.TodoItems.AddRange(
-                    new TodoItem() { Id = 1, Text = "text Mom", UserId = 1, Status = StatusType.OPEN },
-                    new TodoItem() { Id = 2, Text = "get groceries", UserId = 1, Status = StatusType.OPEN },
-                    new TodoItem() { Id = 3, Text = "clean room", UserId = 1, Status = StatusType.CLOSED }
+                    new TodoItem() { Id = 1, Text = "text Mom", UserId = "abc123", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 2, Text = "get groceries", UserId = "abc123", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 3, Text = "clean room", UserId = "abc123", Status = StatusType.CLOSED }
                 );
 
                 context.SaveChanges();
@@ -84,7 +84,8 @@ namespace Todo.Data
                     Email = "admin@example.com",
                     EmailConfirmed = true,
                     FirstName = "Bob",
-                    LastName = "Smith"
+                    LastName = "Smith",
+                    Id = "abc123"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "AdminPassword123!").Result;
@@ -103,7 +104,8 @@ namespace Todo.Data
                     Email = "user@example.com",
                     EmailConfirmed = true,
                     FirstName = "Ron",
-                    LastName = "Johnson"
+                    LastName = "Johnson",
+                    Id = "def456"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "UserPassword123!").Result;

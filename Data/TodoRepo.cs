@@ -38,6 +38,12 @@ namespace Todo.Data
             return _context.TodoItems.FirstOrDefault(t => t.Id == id);
         }
 
+        public void DeleteTodoItem(TodoItem item)
+        {
+            _context.TodoItems.Remove(item);
+            _context.SaveChanges();
+        }
+
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);

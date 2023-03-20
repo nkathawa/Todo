@@ -52,5 +52,20 @@ namespace Todo.Controllers
 
             return CreatedAtRoute(nameof(GetTodoItemById), new { Id = todoItemReadDto.Id }, todoItemReadDto);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult<TodoItemCreateDto> DeleteTodoItem(int id)
+        {
+            Console.WriteLine("--> deleting an item...");
+
+            var itemToDelete = _repo.GetTodoItemById(id);
+            if (itemToDelete == null)
+            {
+                return NotFound();
+            }
+            _repo.DeleteTodoItem(itemToDelete);
+            _repo.SaveChanges();
+            return Ok();
+        }
     }
 }

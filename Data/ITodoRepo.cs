@@ -9,5 +9,7 @@ namespace Todo.Data
         IEnumerable<TodoItem> GetAllTodoItems();
         TodoItem GetTodoItemById(int id);
         void CreateTodoItem(TodoItem todoItem, string userId);
+
+        void DeleteTodoItem(TodoItem item);
     }
 }

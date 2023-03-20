@@ -8,8 +8,8 @@
 
 @foreach (var todoItem in Model)
 {
-    <div style="display:flex">
-        <div style="display:flex" id="@todoItem.Id">
+    <div>
+        <div class="flex-container" id="@todoItem.Id">
             <p>@todoItem.Text</p>
             <p>@todoItem.Status</p>
             <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />

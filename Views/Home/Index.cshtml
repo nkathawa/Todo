@@ -1,4 +1,6 @@
-﻿<div class="text-center">
+﻿<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<div class="text-center">
     <h2>To do list</h2>
 </div>
 
@@ -7,9 +9,11 @@
 @foreach (var todoItem in Model)
 {
     <div style="display:flex">
-        <p>@todoItem.Text</p>
-        <p>@todoItem.Status</p>
-        <button type="submit" value="Delete" class="btn btn-primary">Delete</button>
+        <div id="@todoItem.Id">
+            <p>@todoItem.Text</p>
+            <p>@todoItem.Status</p>
+            <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+        </div>
     </div>
 }
 
@@ -34,27 +38,17 @@
 }
 
 <script>
-    $('form').submit(function (event) {
-        event.preventDefault();
-
-        var formData = $('form').serializeArray();
-        var data = {};
-
-        $(formData).each(function (index, obj) {
-            data[obj.name] = obj.value;
-        });
-
-        console.log(data);
-
+    function remove(id) {
+        var todoItem = document.getElementById(id);
+        todoItem.remove();
         $.ajax({
-            type: 'POST',
-            url: '/api/todo',
-            data: JSON.stringify(data),
+            type: 'DELETE',
+            url: '/api/todo/' + id,
             contentType: 'application/json'
         }).done(function () {
             console.log('Success');
         }).fail(function () {
             console.log('Error');
         });
-    });
+    }
 </script>

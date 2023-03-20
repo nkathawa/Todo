@@ -6,9 +6,10 @@
 
 @foreach (var todoItem in Model)
 {
-    <div>
+    <div style="display:flex">
         <p>@todoItem.Text</p>
         <p>@todoItem.Status</p>
+        <button type="submit" value="Delete" class="btn btn-primary">Delete</button>
     </div>
 }
 

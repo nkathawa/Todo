@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
@@ -22,24 +23,32 @@ namespace Todo.SyncDataServices.Http
 
         public async Task<HttpResponseMessage> SendTodoItemFromWebToDb(TodoItemCreateDto createDto)
         {
-            var userId = (await _userManager.FindByNameAsync("Admin")).Id;
-            createDto.UserId = userId;
-            var httpContent = new StringContent(
-                JsonSerializer.Serialize(createDto),
-                Encoding.UTF8,
-                "application/json");
-
-            var response = await _httpClient.PostAsync($"{_configuration["TodoApi"]}", httpContent);
-
-            if(response.IsSuccessStatusCode)
+            var user = await _userManager.FindByNameAsync("Admin");
+            if (user != null)
             {
-                Console.WriteLine("--> Sync POST to Todo was OK");
+                var userId = user.Id;
+                createDto.UserId = userId;
+                var httpContent = new StringContent(
+                    JsonSerializer.Serialize(createDto),
+                    Encoding.UTF8,
+                    "application/json");
+
+                var response = await _httpClient.PostAsync($"{_configuration["TodoApi"]}", httpContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("--> Sync POST to Todo was OK");
+                }
+                else
+                {
+                    Console.WriteLine("--> Sync POST to Todo was not OK");
+                }
+                return response;
             }
             else
             {
-                Console.WriteLine("--> Sync POST to Todo was not OK");
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
-            return response;
         }
     }
 }

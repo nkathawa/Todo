@@ -44,13 +44,21 @@ namespace Todo.Controllers
             Console.WriteLine("--> creating an item...");
 
             var todoItem = _mapper.Map<TodoItem>(todoItemCreateDto);
-            var userId = (await _userManager.FindByNameAsync("Admin")).Id;
+            var user = await _userManager.FindByNameAsync("Admin");
+            if (user != null)
+            {
+                var userId = user.Id;
 
-            _repo.CreateTodoItem(todoItem, userId);
-            _repo.SaveChanges();
-            var todoItemReadDto = _mapper.Map<TodoItemReadDto>(todoItem);
+                _repo.CreateTodoItem(todoItem, userId);
+                _repo.SaveChanges();
+                var todoItemReadDto = _mapper.Map<TodoItemReadDto>(todoItem);
 
-            return CreatedAtRoute(nameof(GetTodoItemById), new { Id = todoItemReadDto.Id }, todoItemReadDto);
+                return CreatedAtRoute(nameof(GetTodoItemById), new { Id = todoItemReadDto.Id }, todoItemReadDto);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("{id}")]

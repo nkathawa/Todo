@@ -6,15 +6,22 @@
 
 @model List<TodoItem>
 
+@{
+    var userId = (string)ViewBag.UserId;
+}
+
 @foreach (var todoItem in Model)
 {
-    <div>
-        <div class="flex-container" id="@todoItem.Id">
-            <p>@todoItem.Text</p>
-            <p>@todoItem.Status</p>
-            <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+    if (todoItem.UserId == userId)
+    {
+        <div>
+            <div class="flex-container" id="@todoItem.Id">
+                <p>@todoItem.Text</p>
+                <p>@todoItem.Status</p>
+                <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+            </div>
         </div>
-    </div>
+    }
 }
 
 <div class="text-center">

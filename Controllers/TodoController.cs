@@ -30,6 +30,14 @@ namespace Todo.Controllers
             return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
         }
 
+        [HttpGet("userItems/{userId}", Name = "GetTodoItemsByUser")]
+        public ActionResult<IEnumerable<TodoItemReadDto>> GetTodoItemsByUser(string userId)
+        {
+            Console.WriteLine("--> getting items...");
+            var todoItems = _repo.GetAllTodoItems(userId);
+            return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
+        }
+
         [HttpGet("{id}", Name = "GetTodoItemById")]
         public ActionResult<TodoItemReadDto> GetTodoItemById(int id)
         {

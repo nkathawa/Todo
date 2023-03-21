@@ -6,7 +6,7 @@ namespace Todo.Data
     {
         bool SaveChanges();
 
-        IEnumerable<TodoItem> GetAllTodoItems();
+        IEnumerable<TodoItem> GetAllTodoItems(string userId = null);
         TodoItem GetTodoItemById(int id);
         void CreateTodoItem(TodoItem todoItem, string userId);
 

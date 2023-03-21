@@ -28,9 +28,18 @@ namespace Todo.Data
             return todoItem;
         }
 
-        public IEnumerable<TodoItem> GetAllTodoItems()
+        public IEnumerable<TodoItem> GetAllTodoItems(string userId = null)
         {
-            return _context.TodoItems.ToList();
+            if(userId != null)
+            {
+                return _context.TodoItems
+                    .Where(x => x.UserId == userId)
+                    .ToList();
+            }
+            else
+            {
+                return _context.TodoItems.ToList();
+            }
         }
 
         public TodoItem GetTodoItemById(int id)

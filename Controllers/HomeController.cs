@@ -59,7 +59,7 @@ public class HomeController : Controller
                 }
                 else
                 {
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
                 }
             }
             ModelState.AddModelError("", "Invalid username or password");
@@ -69,9 +69,10 @@ public class HomeController : Controller
     }
 
 
-    public IActionResult Index()
+    public IActionResult Index(string userId)
     {
         var todoItems = _dbContext.TodoItems.ToList();
+        ViewBag.UserId = userId;
         return View(todoItems);
     }
 
@@ -81,7 +82,7 @@ public class HomeController : Controller
         var response = await _dataClient.SendTodoItemFromWebToDb(todoItemCreateDto);
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = todoItemCreateDto.UserId });
         }
         else
         {

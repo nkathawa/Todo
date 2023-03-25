@@ -49,7 +49,7 @@ namespace Todo.Data
                 context.TodoItems.AddRange(
                     new TodoItem() { Id = 1, Text = "text Mom", UserId = "abc123", Status = StatusType.OPEN },
                     new TodoItem() { Id = 2, Text = "get groceries", UserId = "abc123", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 3, Text = "clean room", UserId = "abc123", Status = StatusType.CLOSED }
+                    new TodoItem() { Id = 3, Text = "clean room", UserId = "abc123", Status = StatusType.ARCHIVED }
                 );
 
                 context.SaveChanges();

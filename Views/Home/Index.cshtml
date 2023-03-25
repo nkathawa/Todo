@@ -15,7 +15,7 @@
 
 @foreach (var todoItem in Model)
 {
-    if (todoItem.UserId == userId)
+    if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.OPEN)
     {
         <div>
             <div class="flex-container" id="@todoItem.Id">

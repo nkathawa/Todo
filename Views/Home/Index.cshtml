@@ -19,7 +19,8 @@
     {
         <div>
             <div class="flex-container" id="@todoItem.Id">
-                <p>@todoItem.Text</p>
+                <p>@todoItem.Title</p>
+                <p>@todoItem.Description</p>
                 <input type="button" title="Complete" value="Complete" onclick='complete(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
                 <input type="button" title="Archive" value="Archive" onclick='archive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
@@ -36,8 +37,12 @@
 
     <div id="addNewItem" style="display:none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
         <div class="form-group">
-            <label for="Text">Text:</label>
-            <textarea class="form-control" id="text" name="text"></textarea>
+            <label for="Title">Task:</label>
+            <textarea class="form-control" id="title" name="title"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Text">Description:</label>
+            <textarea class="form-control" id="description" name="description"></textarea>
         </div>
         <button type="submit" value="Submit" class="btn btn-primary">Create</button>
     </div>

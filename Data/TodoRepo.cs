@@ -58,7 +58,7 @@ namespace Todo.Data
         {
             var itemToUpdate = GetTodoItemById(id);
             itemToUpdate.Status = item.Status;
-            itemToUpdate.Text = item.Text;
+            itemToUpdate.Description = item.Description;
             _context.SaveChanges();
         }
 

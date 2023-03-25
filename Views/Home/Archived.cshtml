@@ -19,7 +19,8 @@
     {
         <div>
             <div class="flex-container" id="@todoItem.Id">
-                <p>@todoItem.Text</p>
+                <p>@todoItem.Title</p>
+                <p>@todoItem.Description</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
                 <input type="button" title="Unarchive" value="Unarchive" onclick='unarchive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
             </div>

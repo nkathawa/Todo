@@ -47,9 +47,9 @@ namespace Todo.Data
                 Console.WriteLine("--> Seeding data...");
 
                 context.TodoItems.AddRange(
-                    new TodoItem() { Id = 1, Text = "text Mom", UserId = "abc123", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 2, Text = "get groceries", UserId = "abc123", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 3, Text = "clean room", UserId = "abc123", Status = StatusType.ARCHIVED }
+                    new TodoItem() { Id = 1, Title = "text Mom", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 2, Title = "get groceries", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 3, Title = "clean room", Description = "foo", UserId = "abc123", Status = StatusType.ARCHIVED }
                 );
 
                 context.SaveChanges();

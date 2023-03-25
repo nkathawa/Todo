@@ -11,5 +11,7 @@ namespace Todo.Data
         void CreateTodoItem(TodoItem todoItem, string userId);
 
         void DeleteTodoItem(TodoItem item);
+
+        void ArchiveTodoItem(TodoItem item);
     }
 }

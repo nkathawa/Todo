@@ -69,6 +69,21 @@ namespace Todo.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public ActionResult<TodoItemCreateDto> ArchiveTodoItem(int id)
+        {
+            Console.WriteLine("--> archiving an item...");
+
+            var itemToArchive = _repo.GetTodoItemById(id);
+            if (itemToArchive == null)
+            {
+                return NotFound();
+            }
+            _repo.ArchiveTodoItem(itemToArchive);
+            _repo.SaveChanges();
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public ActionResult<TodoItemCreateDto> DeleteTodoItem(int id)
         {

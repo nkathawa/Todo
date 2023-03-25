@@ -1,3 +1,4 @@
+using Todo.Enums;
 using Todo.Models;
 
 namespace Todo.Data
@@ -50,6 +51,12 @@ namespace Todo.Data
         public void DeleteTodoItem(TodoItem item)
         {
             _context.TodoItems.Remove(item);
+            _context.SaveChanges();
+        }
+
+        public void ArchiveTodoItem(TodoItem item)
+        {
+            item.Status = StatusType.ARCHIVED;
             _context.SaveChanges();
         }
 

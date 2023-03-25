@@ -19,6 +19,7 @@
                 <p>@todoItem.Text</p>
                 <p>@todoItem.Status</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+                <input type="button" title="Archive" value="Archive" onclick="archive(@todoItem.Id)" />
             </div>
         </div>
     }
@@ -54,6 +55,21 @@
             contentType: 'application/json'
         }).done(function () {
             console.log('Success');
+        }).fail(function () {
+            console.log('Error');
+        });
+    }
+
+    function archive(id) {
+        var todoItem = document.getElementById(id);
+        @* todoItem.remove(); *@
+        $.ajax({
+            type: 'PUT',
+            url: '/api/todo/' + id,
+            contentType: 'application/json'
+        }).done(function () {
+            console.log('Success');
+            location.reload();
         }).fail(function () {
             console.log('Error');
         });

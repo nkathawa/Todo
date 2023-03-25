@@ -70,16 +70,16 @@ namespace Todo.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<TodoItemCreateDto> ArchiveTodoItem(int id)
+        public ActionResult<TodoItemCreateDto> UpdateTodoItem(int id, TodoItem todoItem)
         {
-            Console.WriteLine("--> archiving an item...");
+            Console.WriteLine("--> updating an item...");
 
-            var itemToArchive = _repo.GetTodoItemById(id);
-            if (itemToArchive == null)
+            var itemToUpdate = _repo.GetTodoItemById(id);
+            if (itemToUpdate == null)
             {
                 return NotFound();
             }
-            _repo.ArchiveTodoItem(itemToArchive);
+            _repo.UpdateTodoItem(id, todoItem);
             _repo.SaveChanges();
             return Ok();
         }

@@ -1,4 +1,4 @@
-using Todo.Enums;
+using Todo.Dtos;
 using Todo.Models;
 
 namespace Todo.Data
@@ -54,9 +54,11 @@ namespace Todo.Data
             _context.SaveChanges();
         }
 
-        public void ArchiveTodoItem(TodoItem item)
+        public void UpdateTodoItem(int id, TodoItem item)
         {
-            item.Status = StatusType.ARCHIVED;
+            var itemToUpdate = GetTodoItemById(id);
+            itemToUpdate.Status = item.Status;
+            itemToUpdate.Text = item.Text;
             _context.SaveChanges();
         }
 

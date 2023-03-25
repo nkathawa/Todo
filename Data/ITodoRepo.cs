@@ -1,3 +1,4 @@
+using Todo.Dtos;
 using Todo.Models;
 
 namespace Todo.Data
@@ -12,6 +13,6 @@ namespace Todo.Data
 
         void DeleteTodoItem(TodoItem item);
 
-        void ArchiveTodoItem(TodoItem item);
+        void UpdateTodoItem(int id, TodoItem item);
     }
 }

@@ -1,8 +1,11 @@
 ﻿<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="wwwroot/js/site.js"></script>
 
 <div class="text-center">
     <h2>To do list</h2>
 </div>
+
+@using Newtonsoft.Json
 
 @model List<TodoItem>
 
@@ -19,7 +22,7 @@
                 <p>@todoItem.Text</p>
                 <p>@todoItem.Status</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Archive" value="Archive" onclick="archive(@todoItem.Id)" />
+                <input type="button" title="Archive" value="Archive" onclick='archive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
             </div>
         </div>
     }
@@ -44,34 +47,3 @@
 
     <button type="submit" value="Submit" class="btn btn-primary">Create</button>
 }
-
-<script>
-    function remove(id) {
-        var todoItem = document.getElementById(id);
-        todoItem.remove();
-        $.ajax({
-            type: 'DELETE',
-            url: '/api/todo/' + id,
-            contentType: 'application/json'
-        }).done(function () {
-            console.log('Success');
-        }).fail(function () {
-            console.log('Error');
-        });
-    }
-
-    function archive(id) {
-        var todoItem = document.getElementById(id);
-        @* todoItem.remove(); *@
-        $.ajax({
-            type: 'PUT',
-            url: '/api/todo/' + id,
-            contentType: 'application/json'
-        }).done(function () {
-            console.log('Success');
-            location.reload();
-        }).fail(function () {
-            console.log('Error');
-        });
-    }
-</script>

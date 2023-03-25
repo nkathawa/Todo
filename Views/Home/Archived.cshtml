@@ -1,0 +1,27 @@
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="wwwroot/js/site.js"></script>
+
+<div class="text-center">
+    <h2>Archived items</h2>
+</div>
+
+@model List<TodoItem>
+
+@{
+    var userId = (string)ViewBag.UserId;
+}
+
+@foreach (var todoItem in Model)
+{
+    if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.ARCHIVED)
+    {
+        <div>
+            <div class="flex-container" id="@todoItem.Id">
+                <p>@todoItem.Text</p>
+                <p>@todoItem.Status</p>
+                <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+                <input type="button" title="Archive" value="Unarchive" onclick="unarchive(@todoItem.Id)" />
+            </div>
+        </div>
+    }
+}

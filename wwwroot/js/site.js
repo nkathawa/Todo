@@ -29,6 +29,23 @@ function archive(json) {
     });
 }
 
+function complete(json) {
+    var id = json["Id"];
+    json["Status"] = 3;
+    var json = JSON.stringify(json);
+    $.ajax({
+        type: 'PUT',
+        url: '/api/todo/' + id,
+        data: json,
+        contentType: 'application/json'
+    }).done(function () {
+        console.log('Success');
+        location.reload();
+    }).fail(function () {
+        console.log('Error');
+    });
+}
+
 function unarchive(json) {
     var id = json["Id"];
     json["Status"] = 0;

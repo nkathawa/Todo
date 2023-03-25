@@ -83,6 +83,13 @@ public class HomeController : Controller
         return View(todoItems);
     }
 
+    public IActionResult Completed(string userId)
+    {
+        var todoItems = _dbContext.TodoItems.ToList();
+        ViewBag.UserId = userId;
+        return View(todoItems);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(TodoItemCreateDto todoItemCreateDto)
     {

@@ -20,6 +20,7 @@
         <div>
             <div class="flex-container" id="@todoItem.Id">
                 <p>@todoItem.Text</p>
+                <input type="button" title="Complete" value="Complete" onclick='complete(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
                 <input type="button" title="Archive" value="Archive" onclick='archive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
             </div>
@@ -27,11 +28,7 @@
     }
 }
 
-<div class="text-center">
-    <h2>Add a new item</h2>
-</div>
-
-<button type="button" onclick="addNewItem()">+</button>
+<button type="button" onclick="addNewItem()"><h1>+</h1></button>
 
 @using (Html.BeginForm("Create", "Home", FormMethod.Post))
 {

@@ -4,6 +4,7 @@ namespace Todo.Enums
     {
         OPEN,
         CLOSED,
-        ARCHIVED
+        ARCHIVED,
+        COMPLETED
     }
 }

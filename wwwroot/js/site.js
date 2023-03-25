@@ -13,9 +13,6 @@
 }
 
 function archive(json) {
-    console.log('hi');
-    console.log(json);
-    console.log(json["Id"]);
     var id = json["Id"];
     json["Status"] = 2;
     var json = JSON.stringify(json);
@@ -32,10 +29,14 @@ function archive(json) {
     });
 }
 
-function unarchive(id) {
+function unarchive(json) {
+    var id = json["Id"];
+    json["Status"] = 0;
+    var json = JSON.stringify(json);
     $.ajax({
         type: 'PUT',
         url: '/api/todo/' + id,
+        data: json,
         contentType: 'application/json'
     }).done(function () {
         console.log('Success');

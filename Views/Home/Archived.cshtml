@@ -5,6 +5,8 @@
     <h2>Archived items</h2>
 </div>
 
+@using Newtonsoft.Json
+
 @model List<TodoItem>
 
 @{
@@ -20,7 +22,7 @@
                 <p>@todoItem.Text</p>
                 <p>@todoItem.Status</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Archive" value="Unarchive" onclick="unarchive(@todoItem.Id)" />
+                <input type="button" title="Unarchive" value="Unarchive" onclick='unarchive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
             </div>
         </div>
     }

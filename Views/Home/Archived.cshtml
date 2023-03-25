@@ -20,7 +20,6 @@
         <div>
             <div class="flex-container" id="@todoItem.Id">
                 <p>@todoItem.Text</p>
-                <p>@todoItem.Status</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
                 <input type="button" title="Unarchive" value="Unarchive" onclick='unarchive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
             </div>

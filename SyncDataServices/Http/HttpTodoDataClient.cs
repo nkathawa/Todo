@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Todo.Dtos;
+using Todo.Enums;
 using Todo.Models;
 
 namespace Todo.SyncDataServices.Http
@@ -28,6 +29,7 @@ namespace Todo.SyncDataServices.Http
             {
                 var userId = user.Id;
                 createDto.UserId = userId;
+                createDto.Status = StatusType.OPEN;
                 var httpContent = new StringContent(
                     JsonSerializer.Serialize(createDto),
                     Encoding.UTF8,

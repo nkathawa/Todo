@@ -45,3 +45,8 @@ function unarchive(json) {
         console.log('Error');
     });
 }
+
+function addNewItem() {
+    var dialog = document.getElementById('addNewItem');
+    dialog.style.display = 'block';
+}

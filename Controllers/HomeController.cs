@@ -18,8 +18,8 @@ public class HomeController : Controller
     private readonly AppDbContext _dbContext;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, 
-        ITodoDataClient dataClient, 
+    public HomeController(ILogger<HomeController> logger,
+        ITodoDataClient dataClient,
         AppDbContext dbContext,
         UserManager<ApplicationUser> userManager)
     {
@@ -30,14 +30,13 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public IActionResult Login(string returnUrl)
+    public IActionResult Login()
     {
-        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -46,21 +45,14 @@ public class HomeController : Controller
             {
                 Console.WriteLine(user.Id);
                 var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName)
-            };
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName)
+                };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return LocalRedirect(returnUrl);
-                }
-                else
-                {
-                    return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
-                }
+                return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
             }
             ModelState.AddModelError("", "Invalid username or password");
         }

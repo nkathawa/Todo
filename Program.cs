@@ -45,7 +45,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{returnUrl?}");
+    pattern: "{controller=Home}/{action=Login}");
 
 PrepDb.PrepPopulation(app, false);
 

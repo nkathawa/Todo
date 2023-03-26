@@ -21,9 +21,9 @@
             <div class="flex-container" id="@todoItem.Id">
                 <p>@todoItem.Title</p>
                 <p>@todoItem.Description</p>
-                <input type="button" title="Complete" value="Complete" onclick='complete(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
+                <input type="button" title="Complete" value="Complete" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)' />
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Archive" value="Archive" onclick='archive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
+                <input type="button" title="Archive" value="Archive" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 1)' />
             </div>
         </div>
     }

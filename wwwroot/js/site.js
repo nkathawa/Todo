@@ -12,43 +12,9 @@
     });
 }
 
-function archive(json) {
+function changeStatus(json, status) {
     var id = json["Id"];
-    json["Status"] = 1;
-    var json = JSON.stringify(json);
-    $.ajax({
-        type: 'PUT',
-        url: '/api/todo/' + id,
-        data: json,
-        contentType: 'application/json'
-    }).done(function () {
-        console.log('Success');
-        location.reload();
-    }).fail(function () {
-        console.log('Error');
-    });
-}
-
-function complete(json) {
-    var id = json["Id"];
-    json["Status"] = 2;
-    var json = JSON.stringify(json);
-    $.ajax({
-        type: 'PUT',
-        url: '/api/todo/' + id,
-        data: json,
-        contentType: 'application/json'
-    }).done(function () {
-        console.log('Success');
-        location.reload();
-    }).fail(function () {
-        console.log('Error');
-    });
-}
-
-function unarchive(json) {
-    var id = json["Id"];
-    json["Status"] = 0;
+    json["Status"] = status;
     var json = JSON.stringify(json);
     $.ajax({
         type: 'PUT',

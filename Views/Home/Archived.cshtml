@@ -22,7 +22,7 @@
                 <p>@todoItem.Title</p>
                 <p>@todoItem.Description</p>
                 <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Unarchive" value="Unarchive" onclick='unarchive(@Html.Raw(JsonConvert.SerializeObject(todoItem)))' />
+                <input type="button" title="Unarchive" value="Unarchive" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
             </div>
         </div>
     }

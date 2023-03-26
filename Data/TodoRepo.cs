@@ -20,7 +20,11 @@ namespace Todo.Data
                 throw new ArgumentNullException(nameof(todoItem));
             }
 
-            _context.TodoItems.Add(todoItem);
+            var todoItems = _context.TodoItems;
+            if (todoItems != null)
+            {
+                todoItems.Add(todoItem);
+            }
         }
 
         private TodoItem AddUserIdToTodoItem(TodoItem todoItem, string userId)
@@ -31,36 +35,64 @@ namespace Todo.Data
 
         public IEnumerable<TodoItem> GetAllTodoItems(string userId = null)
         {
-            if(userId != null)
+            if (userId != null)
             {
-                return _context.TodoItems
-                    .Where(x => x.UserId == userId)
-                    .ToList();
+                var todoItems = _context.TodoItems;
+                if (todoItems != null)
+                {
+                    return todoItems
+                        .Where(x => x.UserId == userId)
+                        .ToList();
+                }
+                else
+                {
+                    return new List<TodoItem>();
+                }
             }
             else
             {
-                return _context.TodoItems.ToList();
+                var todoItems = _context.TodoItems;
+                if (todoItems != null)
+                {
+                    return todoItems.ToList();
+                }
+                else
+                {
+                    return new List<TodoItem>();
+                }
             }
         }
 
-        public TodoItem GetTodoItemById(int id)
+        public TodoItem? GetTodoItemById(int id)
         {
-            return _context.TodoItems.FirstOrDefault(t => t.Id == id);
+            var todoItems = _context.TodoItems;
+            if (todoItems != null)
+            {
+                return todoItems.FirstOrDefault(t => t.Id == id);
+            }
+            return null;
         }
 
         public void DeleteTodoItem(TodoItem item)
         {
-            _context.TodoItems.Remove(item);
-            _context.SaveChanges();
+            var todoItems = _context.TodoItems;
+            if (todoItems != null)
+            {
+                todoItems.Remove(item);
+                _context.SaveChanges();
+            }
         }
 
         public void UpdateTodoItem(int id, TodoItem item)
         {
             var itemToUpdate = GetTodoItemById(id);
-            itemToUpdate.Status = item.Status;
-            itemToUpdate.Title = item.Title;
-            itemToUpdate.Description = item.Description;
-            _context.SaveChanges();
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.Status = item.Status;
+                itemToUpdate.Title = item.Title;
+                itemToUpdate.Description = item.Description;
+                _context.SaveChanges();
+            }
         }
 
         public bool SaveChanges()

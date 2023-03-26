@@ -8,7 +8,7 @@ namespace Todo.Data
         bool SaveChanges();
 
         IEnumerable<TodoItem> GetAllTodoItems(string userId = null);
-        TodoItem GetTodoItemById(int id);
+        TodoItem? GetTodoItemById(int id);
         void CreateTodoItem(TodoItem todoItem, string userId);
 
         void DeleteTodoItem(TodoItem item);

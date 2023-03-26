@@ -12,6 +12,6 @@ namespace Todo.Data
             
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<TodoItem>? TodoItems { get; set; }
     }
 }

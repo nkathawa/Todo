@@ -13,7 +13,11 @@ namespace Todo.Data
             {
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), userManager, roleManager, isProduction);
+                var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                if (dbContext != null)
+                {
+                    SeedData(dbContext, userManager, roleManager, isProduction);
+                }
             }
         }
 
@@ -42,11 +46,12 @@ namespace Todo.Data
                 }
             }
 
-            if (!context.TodoItems.Any())
+            var todoItems = context.TodoItems;
+            if (todoItems != null && !todoItems.Any())
             {
                 Console.WriteLine("--> Seeding data...");
 
-                context.TodoItems.AddRange(
+                todoItems.AddRange(
                     new TodoItem() { Id = 1, Title = "text Mom", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
                     new TodoItem() { Id = 2, Title = "get groceries", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
                     new TodoItem() { Id = 3, Title = "clean room", Description = "foo", UserId = "abc123", Status = StatusType.ARCHIVED }

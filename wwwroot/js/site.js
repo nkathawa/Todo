@@ -14,7 +14,7 @@
 
 function archive(json) {
     var id = json["Id"];
-    json["Status"] = 2;
+    json["Status"] = 1;
     var json = JSON.stringify(json);
     $.ajax({
         type: 'PUT',
@@ -31,7 +31,7 @@ function archive(json) {
 
 function complete(json) {
     var id = json["Id"];
-    json["Status"] = 3;
+    json["Status"] = 2;
     var json = JSON.stringify(json);
     $.ajax({
         type: 'PUT',

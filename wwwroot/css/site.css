@@ -21,11 +21,6 @@ body {
   margin-bottom: 60px;
 }
 
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .table-container {
   display: table;
   table-layout: fixed;

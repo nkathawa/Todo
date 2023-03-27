@@ -25,3 +25,19 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.table-container {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  border: 1px solid #ccc;
+  padding: 5px;
+}

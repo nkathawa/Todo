@@ -13,17 +13,27 @@
     var userId = (string)ViewBag.UserId;
 }
 
-@foreach (var todoItem in Model)
-{
-    if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.ARCHIVED)
+<div class="table-container">
+    <div class="table-row">
+        <p class="table-cell">Task</p>
+        <p class="table-cell">Description</p>
+        <p class="table-cell">Priority</p>
+        <p class="table-cell">Date</p>
+
+    </div>
+    @foreach (var todoItem in Model)
     {
-        <div>
-            <div class="flex-container" id="@todoItem.Id">
-                <p>@todoItem.Title</p>
-                <p>@todoItem.Description</p>
-                <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Unarchive" value="Unarchive" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
+        if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.ARCHIVED)
+        {
+            <div class="table-row" id="@todoItem.Id">
+                <p class="table-cell">@todoItem.Title</p>
+                <p class="table-cell">@todoItem.Description</p>
+                <p class="table-cell">@todoItem.Priority</p>
+                <p class="table-cell">@todoItem.Date</p>
+                <input class="table-cell" type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+                <input class="table-cell" type="button" title="Unarchive" value="Unarchive"
+                    onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
             </div>
-        </div>
+        }
     }
-}
+</div>

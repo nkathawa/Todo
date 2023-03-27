@@ -13,29 +13,43 @@
     var userId = (string)ViewBag.UserId;
 }
 
-@foreach (var todoItem in Model)
-{
-    if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.OPEN)
-    {
-        <div>
-            <div class="flex-container" id="@todoItem.Id">
-                <p>@todoItem.Title</p>
-                <p>@todoItem.Description</p>
-                <input type="button" title="Complete" value="Complete" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)' />
-                <input type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                <input type="button" title="Archive" value="Archive" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 1)' />
-            </div>
-        </div>
-    }
-}
+<div class="table-container">
+    <div class="table-row">
+        <p class="table-cell">Task</p>
+        <p class="table-cell">Description</p>
+        <p class="table-cell">Priority</p>
+        <p class="table-cell">Date</p>
 
-<button type="button" onclick="addNewItem()"><h1>+</h1></button>
+    </div>
+    @foreach (var todoItem in Model)
+    {
+        if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.OPEN)
+        {
+            <div class="table-row" id="@todoItem.Id">
+                <p class="table-cell">@todoItem.Title</p>
+                <p class="table-cell">@todoItem.Description</p>
+                <p class="table-cell">@todoItem.Priority</p>
+                <p class="table-cell">@todoItem.Date</p>
+                <input class="table-cell" type="button" title="Complete" value="Complete"
+                    onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)' />
+                <input class="table-cell" type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
+                <input class="table-cell" type="button" title="Archive" value="Archive"
+                    onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 1)' />
+            </div>
+        }
+    }
+</div>
+
+<button type="button" onclick="addNewItem()">
+    <h1>+</h1>
+</button>
 
 @using (Html.BeginForm("Create", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div id="addNewItem" style="display:none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
+    <div id="addNewItem"
+        style="display:none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
         <div class="form-group">
             <label for="Title">Task:</label>
             <textarea class="form-control" id="title" name="title"></textarea>
@@ -43,6 +57,14 @@
         <div class="form-group">
             <label for="Text">Description:</label>
             <textarea class="form-control" id="description" name="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Text">Priority:</label>
+            <textarea class="form-control" id="priority" name="priority"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Text">Date:</label>
+            <textarea class="form-control" id="date" name="date"></textarea>
         </div>
         <button type="submit" value="Submit" class="btn btn-primary">Create</button>
     </div>

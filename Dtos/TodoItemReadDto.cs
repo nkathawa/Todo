@@ -13,5 +13,9 @@ namespace Todo.Dtos
         public string UserId { get; set; }
         
         public StatusType Status { get; set; }
+
+        public DateTime? Date { get; set; }
+
+        public PriorityType? Priority { get; set; }
     }
 }

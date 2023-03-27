@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Data;
@@ -51,6 +52,7 @@ public class HomeController : Controller
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                Console.WriteLine("33333");
                 return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
             }
             ModelState.AddModelError("", "Invalid username or password");
@@ -60,6 +62,8 @@ public class HomeController : Controller
     }
 
 
+    // [Authorize(Roles="Admin")]
+    [AllowAnonymous]
     public IActionResult Index(string userId)
     {
         var todoItems = _dbContext.TodoItems.ToList();
@@ -67,6 +71,7 @@ public class HomeController : Controller
         return View(todoItems);
     }
 
+    // [Authorize(Roles="Admin")]
     public IActionResult Archived(string userId)
     {
         var todoItems = _dbContext.TodoItems.ToList();
@@ -74,6 +79,7 @@ public class HomeController : Controller
         return View(todoItems);
     }
 
+    // [Authorize(Roles="Admin")]
     public IActionResult Completed(string userId)
     {
         var todoItems = _dbContext.TodoItems.ToList();
@@ -81,6 +87,7 @@ public class HomeController : Controller
         return View(todoItems);
     }
 
+    // [Authorize(Roles="Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(TodoItemCreateDto todoItemCreateDto)
     {

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Data;
@@ -29,20 +30,25 @@ public class HomeController : Controller
         _userManager = userManager;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
+        Console.WriteLine("hello0");
         if (ModelState.IsValid)
         {
+            Console.WriteLine("hello1");
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+                Console.WriteLine("hello2");
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -50,8 +56,21 @@ public class HomeController : Controller
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await _userManager.AddClaimsAsync(user, claims);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
+                Console.WriteLine("hello3");
+                // return Index(user.Id);
+
+                // create a new cookie
+                CookieOptions options = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(7)
+                };
+                Response.Cookies.Append("MyCookie", "CookieValue", options);
+
+                // return Redirect($"Home/Index/{user.Id}");
+
+                return RedirectToAction("Index", "Home", new { userId = user.Id, area="" });
             }
             ModelState.AddModelError("", "Invalid username or password");
         }
@@ -59,9 +78,20 @@ public class HomeController : Controller
         return View(model);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
 
+        return RedirectToAction("Index", "Home");
+    }
+
+
+    [Authorize(Roles = "Admin")]
     public IActionResult Index(string userId)
     {
+        Console.WriteLine("hello");
         var todoItems = _dbContext.TodoItems.ToList();
         ViewBag.UserId = userId;
         return View(todoItems);

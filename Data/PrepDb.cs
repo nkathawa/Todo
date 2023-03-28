@@ -27,8 +27,8 @@ namespace Todo.Data
             bool isProduction)
         {
             SeedTodoItems(context, isProduction);
-            SeedRoles(roleManager);
-            SeedUsers(userManager);
+            SeedRoles(context, roleManager);
+            SeedUsers(context, userManager);
         }
 
         private static void SeedTodoItems(AppDbContext context, bool isProduction)
@@ -65,7 +65,7 @@ namespace Todo.Data
             }
         }
 
-        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        private static void SeedRoles(AppDbContext context, RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("Admin").Result)
             {
@@ -77,9 +77,10 @@ namespace Todo.Data
                 IdentityRole role = new IdentityRole("User");
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
             }
+            context.SaveChanges();
         }
 
-        private static void SeedUsers(UserManager<ApplicationUser> userManager)
+        private static void SeedUsers(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
             if (userManager.FindByNameAsync("admin").Result == null)
             {
@@ -97,7 +98,9 @@ namespace Todo.Data
 
                 if (result.Succeeded)
                 {
+                    Console.WriteLine("-->GOT HERE");
                     userManager.AddToRoleAsync(user, "Admin").Wait();
+                    
                 }
             }
 
@@ -120,6 +123,7 @@ namespace Todo.Data
                     userManager.AddToRoleAsync(user, "User").Wait();
                 }
             }
+            context.SaveChanges();
         }
     }
 }

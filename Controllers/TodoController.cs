@@ -52,11 +52,10 @@ namespace Todo.Controllers
             Console.WriteLine("--> creating an item...");
 
             var todoItem = _mapper.Map<TodoItem>(todoItemCreateDto);
-            var user = await _userManager.FindByNameAsync("Admin");
+            var userId = todoItemCreateDto.UserId;
+            var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                var userId = user.Id;
-
                 _repo.CreateTodoItem(todoItem, userId);
                 _repo.SaveChanges();
                 var todoItemReadDto = _mapper.Map<TodoItemReadDto>(todoItem);

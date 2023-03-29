@@ -118,10 +118,12 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(TodoItemCreateDto todoItemCreateDto)
     {
+        var userId = Request.Form["userId"];
+        todoItemCreateDto.UserId = userId;
         var response = await _dataClient.SendTodoItemFromWebToDb(todoItemCreateDto);
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = todoItemCreateDto.UserId });
+            return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = userId });
         }
         else
         {

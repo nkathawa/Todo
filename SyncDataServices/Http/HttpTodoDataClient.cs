@@ -24,7 +24,7 @@ namespace Todo.SyncDataServices.Http
 
         public async Task<HttpResponseMessage> SendTodoItemFromWebToDb(TodoItemCreateDto createDto)
         {
-            var user = await _userManager.FindByNameAsync("Admin");
+            var user = await _userManager.FindByIdAsync(createDto.UserId);
             if (user != null)
             {
                 var userId = user.Id;

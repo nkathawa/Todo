@@ -17,16 +17,19 @@ public class HomeController : Controller
     private readonly ITodoDataClient _dataClient;
     private readonly AppDbContext _dbContext;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITodoRepo _repo;
 
     public HomeController(ILogger<HomeController> logger,
         ITodoDataClient dataClient,
         AppDbContext dbContext,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        ITodoRepo repo)
     {
         _logger = logger;
         _dataClient = dataClient;
         _dbContext = dbContext;
         _userManager = userManager;
+        _repo = repo;
     }
 
     [HttpGet]
@@ -59,6 +62,37 @@ public class HomeController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Signup()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Signup(LoginViewModel model)
+    {            
+        if (_userManager.FindByNameAsync(model.Username).Result == null)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = model.Username,
+                Email = "acb@123.com",
+                EmailConfirmed = true,
+                FirstName = "Jim",
+                LastName = "Cricket",
+                Id = "qwerty"
+            };
+
+            IdentityResult result = _userManager.CreateAsync(user, "AdminPassword123!").Result;
+
+            if (result.Succeeded)
+            {
+                _userManager.AddToRoleAsync(user, "Admin").Wait();
+            }
+        }
+        _repo.SaveChanges();
+        return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = "qwerty" });
+    }
 
     public IActionResult Index(string userId)
     {

@@ -40,6 +40,15 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Logout()
+    {
+        // Redirect to the login page
+        return RedirectToAction("Login", "Home");
+    }
+
+
+    [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (ModelState.IsValid)
@@ -81,18 +90,18 @@ public class HomeController : Controller
                 EmailConfirmed = true,
                 FirstName = "Jim",
                 LastName = "Cricket",
-                Id = "qwerty"
+                Id = Guid.NewGuid().ToString()
             };
-
-            IdentityResult result = _userManager.CreateAsync(user, "AdminPassword123!").Result;
+            IdentityResult result = _userManager.CreateAsync(user, model.Password).Result;
 
             if (result.Succeeded)
             {
                 _userManager.AddToRoleAsync(user, "Admin").Wait();
             }
+            _repo.SaveChanges();
+            return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
         }
-        _repo.SaveChanges();
-        return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = "qwerty" });
+        return RedirectToAction(nameof(HomeController.Signup), "Home");
     }
 
     public IActionResult Index(string userId)

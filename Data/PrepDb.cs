@@ -90,7 +90,7 @@ namespace Todo.Data
                     EmailConfirmed = true,
                     FirstName = "Bob",
                     LastName = "Smith",
-                    Id = "abc123"
+                    Id = Guid.NewGuid().ToString()
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "AdminPassword123!").Result;
@@ -110,7 +110,7 @@ namespace Todo.Data
                     EmailConfirmed = true,
                     FirstName = "Ron",
                     LastName = "Johnson",
-                    Id = "def456"
+                    Id = Guid.NewGuid().ToString()
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "UserPassword123!").Result;

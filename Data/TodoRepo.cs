@@ -95,6 +95,11 @@ namespace Todo.Data
             }
         }
 
+        public IEnumerable<ApplicationUser> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
+
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);

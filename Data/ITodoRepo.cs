@@ -14,5 +14,7 @@ namespace Todo.Data
         void DeleteTodoItem(TodoItem item);
 
         void UpdateTodoItem(int id, TodoItem item);
+
+        IEnumerable<ApplicationUser> GetAllUsers();
     }
 }

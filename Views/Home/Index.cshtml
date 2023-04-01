@@ -20,14 +20,16 @@
         {
             <div class="card bg-primary text-white" id="@todoItem.Id">
                 <div class="card-body">
+                    <div class="form-check float-end">
+                        <input class="form-check-input" type="checkbox" id="check-@todoItem.Id" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)'>
+                        <label class="form-check-label" for="check-@todoItem.Id"></label>
+                    </div>
                     <h5 class="card-title">@todoItem.Title</h5>
                     <p class="card-text">@todoItem.Description</p>
                     <p class="card-text">@todoItem.Priority</p>
                     <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
-                    <input class="table-cell" type="button" title="Complete" value="Complete"
-                        onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)' />
-                    <input class="table-cell" type="button" title="Delete" value="Delete" onclick="remove(@todoItem.Id)" />
-                    <input class="table-cell" type="button" title="Archive" value="Archive"
+                    <input class="table-cell" type="button" title="Delete" value="&#128465;" onclick="remove(@todoItem.Id)" />
+                    <input class="table-cell" type="button" title="Archive" value="&#x1F4C1;"
                         onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 1)' />
                 </div>
             </div>
@@ -35,9 +37,11 @@
     }
 </div>
 
-<button type="button" onclick="addNewItem()">
-    <h1>+</h1>
-</button>
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary rounded-circle btn-lg" onclick="addNewItem()">
+        <h1>+</h1>
+    </button>
+</div>
 
 @using (Html.BeginForm("Create", "Home", FormMethod.Post))
 {

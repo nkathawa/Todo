@@ -52,9 +52,9 @@ namespace Todo.Data
                 Console.WriteLine("--> Seeding data...");
 
                 todoItems.AddRange(
-                    new TodoItem() { Id = 1, Title = "text Mom", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 2, Title = "get groceries", Description = "foo", UserId = "abc123", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 3, Title = "clean room", Description = "foo", UserId = "abc123", Status = StatusType.ARCHIVED }
+                    new TodoItem() { Id = 1, Title = "text Mom", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 2, Title = "get groceries", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 3, Title = "clean room", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.ARCHIVED }
                 );
 
                 context.SaveChanges();
@@ -90,7 +90,7 @@ namespace Todo.Data
                     EmailConfirmed = true,
                     FirstName = "Bob",
                     LastName = "Smith",
-                    Id = Guid.NewGuid().ToString()
+                    Id = "b5453c33-014c-4757-a8e3-f7732954c04c"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "AdminPassword123!").Result;

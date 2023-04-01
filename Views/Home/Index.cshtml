@@ -59,12 +59,15 @@
             <textarea class="form-control" id="description" name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="Text">Priority:</label>
-            <textarea class="form-control" id="priority" name="priority"></textarea>
+            <label for="priority">Priority:</label>
+            <select class="form-control" id="priority" name="priority">
+                <option value="HIGH">High</option>
+                <option value="LOW">Low</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="Text">Date:</label>
-            <textarea class="form-control" id="date" name="date"></textarea>
+            <label for="date">Date:</label>
+            <input class="form-control" type="date" id="date" name="date">
         </div>
         <button type="submit" value="Submit" class="btn btn-primary">Create</button>
     </div>

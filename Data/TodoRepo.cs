@@ -1,4 +1,5 @@
 using Todo.Dtos;
+using Todo.Enums;
 using Todo.Models;
 
 namespace Todo.Data
@@ -98,6 +99,21 @@ namespace Todo.Data
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return _context.Users.ToList();
+        }
+
+        public IEnumerable<TodoItem> GetAllTodoItemsByStatus(StatusType status)
+        {
+            var todoItems = _context.TodoItems;
+            if (todoItems != null)
+            {
+                return todoItems
+                    .Where(x => x.Status == status)
+                    .ToList();
+            }
+            else
+            {
+                return new List<TodoItem>();
+            }
         }
 
         public bool SaveChanges()

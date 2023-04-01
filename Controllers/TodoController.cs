@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Data;
 using Todo.Dtos;
+using Todo.Enums;
 using Todo.Models;
 
 namespace Todo.Controllers
@@ -29,6 +30,14 @@ namespace Todo.Controllers
             var todoItems = _repo.GetAllTodoItems();
             return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
         }
+
+        [HttpGet("status/{status}", Name = "GetTodoItemsByStatus")]
+        public ActionResult<IEnumerable<TodoItemReadDto>> GetTodoItemsByStatus(StatusType status)
+        {
+            Console.WriteLine("--> getting items...");
+            var todoItems = _repo.GetAllTodoItemsByStatus(status);
+            return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
+        } 
 
         [HttpGet("userItems/{userId}", Name = "GetTodoItemsByUser")]
         public ActionResult<IEnumerable<TodoItemReadDto>> GetTodoItemsByUser(string userId)

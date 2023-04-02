@@ -1,0 +1,31 @@
+@using Newtonsoft.Json
+
+@model TodoItemViewModel
+
+<div class="card-group d-flex flex-wrap justify-content-start">
+    @foreach (var todoItem in Model.TodoItems)
+    {
+        var priority = todoItem.Priority;
+        var priorityImageUrl = priority == 0 ? Url.Content("~/images/high.png") : Url.Content("~/images/low.png");
+        var archiveUnarchive = @Model.ArchivedStatus == 0 ? "&#128194;" : "&#x1F4C1;";
+        <div class="card bg-primary text-white mb-3 px-3 mx-3" style="flex: 0 0 25%;" id="@todoItem.Id">
+            <div class="card-body">
+                <div style="display: flex; justify-content: flex-end;">
+                    <h5 class="card-title">@todoItem.Title</h5>
+                    <div class="form-check float-end" style="margin-left: auto;">
+                        <input class="form-check-input" type="checkbox" id="check-@todoItem.Id" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), @Model.CompletedStatus)'>
+                        <label class="form-check-label" for="check-@todoItem.Id"></label>
+                    </div>
+                </div>
+                <p class="card-text">@todoItem.Description</p>
+                <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
+                <div style="display: flex; justify-content: flex-end;">
+                    <input class="table-cell" type="button" title="Delete" value="&#128465;" onclick="remove(@todoItem.Id)" />
+                    <input class="table-cell" type="button" title="Archive/Unarchive" value=@Html.Raw(archiveUnarchive)
+                        onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), @Model.ArchivedStatus)' />
+                    <p class="card-text float-end" style="margin-left: auto;"><img src=@priorityImageUrl width="24" height="24" /></p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

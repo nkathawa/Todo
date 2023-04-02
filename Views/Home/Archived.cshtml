@@ -5,40 +5,10 @@
     <h2>Archived items</h2>
 </div>
 
-@using Newtonsoft.Json
-
 @model List<TodoItem>
 
 @{
     var userId = (string)ViewBag.UserId;
 }
 
-<div class="card-group d-flex flex-wrap justify-content-start">
-    @foreach (var todoItem in Model)
-    {
-        if (todoItem.UserId == userId && todoItem.Status == Todo.Enums.StatusType.ARCHIVED)
-        {
-            var priority = todoItem.Priority;
-            var priorityImageUrl = priority == 0 ? Url.Content("~/images/high.png") : Url.Content("~/images/low.png");
-            <div class="card bg-primary text-white mb-3 px-3 mx-3" style="flex: 0 0 25%;" id="@todoItem.Id">
-                <div class="card-body">
-                    <div style="display: flex; justify-content: flex-end;">
-                        <h5 class="card-title">@todoItem.Title</h5>
-                        <div class="form-check float-end" style="margin-left: auto;">
-                            <input class="form-check-input" type="checkbox" id="check-@todoItem.Id" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)'>
-                            <label class="form-check-label" for="check-@todoItem.Id"></label>
-                        </div>
-                    </div>
-                    <p class="card-text">@todoItem.Description</p>
-                    <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
-                    <div style="display: flex; justify-content: flex-end;">
-                        <input class="table-cell" type="button" title="Delete" value="&#128465;" onclick="remove(@todoItem.Id)" />
-                        <input class="table-cell" type="button" title="Unarchive" value="Unarchive"
-                            onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
-                        <p class="card-text float-end" style="margin-left: auto;"><img src=@priorityImageUrl width="24" height="24" /></p>
-                    </div>
-                </div>
-            </div>
-        }
-    }
-</div>
+@{ Html.RenderPartial("_Partial", new TodoItemViewModel(Model.Where(x => x.UserId == userId && x.Status == Todo.Enums.StatusType.ARCHIVED), userId, 2, 0)); }

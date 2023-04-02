@@ -28,19 +28,18 @@ Open your browser and navigate to http://localhost:5087 to view the application.
 ```
 
 ### Features
-Create, read, update and delete tasks.
-Mark a task as completed.
-Filter tasks by status (completed or incomplete).
+- Create, read, update and delete tasks.
+- Mark a task as completed.
+- Filter tasks by status (completed or incomplete).
 
 ### Technologies Used
-C#
-ASP.NET Core MVC
-Entity Framework Core
-Bootstrap
-RESTful APIs
-Razor Pages
-cshtml
-
+- C#
+- ASP.NET Core MVC
+- Entity Framework Core
+- Bootstrap
+- RESTful APIs
+- Razor Pages
+- cshtml
 
 ### Contributing
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.

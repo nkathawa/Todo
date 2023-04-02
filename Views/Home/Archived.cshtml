@@ -22,17 +22,21 @@
             var priorityImageUrl = priority == 0 ? Url.Content("~/images/high.png") : Url.Content("~/images/low.png");
             <div class="card bg-primary text-white mb-3 px-3 mx-3" style="flex: 0 0 25%;" id="@todoItem.Id">
                 <div class="card-body">
-                    <div class="form-check float-end">
-                        <input class="form-check-input" type="checkbox" id="check-@todoItem.Id" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)'>
-                        <label class="form-check-label" for="check-@todoItem.Id"></label>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <h5 class="card-title">@todoItem.Title</h5>
+                        <div class="form-check float-end" style="margin-left: auto;">
+                            <input class="form-check-input" type="checkbox" id="check-@todoItem.Id" onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 2)'>
+                            <label class="form-check-label" for="check-@todoItem.Id"></label>
+                        </div>
                     </div>
-                    <h5 class="card-title">@todoItem.Title</h5>
                     <p class="card-text">@todoItem.Description</p>
                     <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
-                    <input class="table-cell" type="button" title="Delete" value="&#128465;" onclick="remove(@todoItem.Id)" />
-                    <input class="table-cell" type="button" title="Unarchive" value="Unarchive"
-                        onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
-                    <p class="card-text float-end"><img src=@priorityImageUrl width="24" height="24" /></p>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <input class="table-cell" type="button" title="Delete" value="&#128465;" onclick="remove(@todoItem.Id)" />
+                        <input class="table-cell" type="button" title="Unarchive" value="Unarchive"
+                            onclick='changeStatus(@Html.Raw(JsonConvert.SerializeObject(todoItem)), 0)' />
+                        <p class="card-text float-end" style="margin-left: auto;"><img src=@priorityImageUrl width="24" height="24" /></p>
+                    </div>
                 </div>
             </div>
         }

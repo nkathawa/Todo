@@ -16,7 +16,7 @@ namespace Todo.Data
 
         void UpdateTodoItem(int id, TodoItem item);
 
-        IEnumerable<TodoItem> GetAllTodoItemsByStatus(StatusType status);
+        IEnumerable<TodoItem> GetAllUserTodoItemsByStatus(string userId, StatusType status);
 
         IEnumerable<ApplicationUser> GetAllUsers();
     }

@@ -101,12 +101,13 @@ namespace Todo.Data
             return _context.Users.ToList();
         }
 
-        public IEnumerable<TodoItem> GetAllTodoItemsByStatus(StatusType status)
+        public IEnumerable<TodoItem> GetAllUserTodoItemsByStatus(string userId, StatusType status)
         {
             var todoItems = _context.TodoItems;
             if (todoItems != null)
             {
                 return todoItems
+                    .Where(x => x.UserId == userId)
                     .Where(x => x.Status == status)
                     .ToList();
             }

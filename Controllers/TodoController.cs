@@ -31,13 +31,13 @@ namespace Todo.Controllers
             return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
         }
 
-        [HttpGet("status/{status}", Name = "GetTodoItemsByStatus")]
-        public ActionResult<IEnumerable<TodoItemReadDto>> GetTodoItemsByStatus(StatusType status)
+        [HttpGet("userItems/{userId}/status/{status}", Name = "GetUserTodoItemsByStatus")]
+        public ActionResult<IEnumerable<TodoItemReadDto>> GetUserTodoItemsByStatus(string userId, StatusType status)
         {
             Console.WriteLine("--> getting items...");
-            var todoItems = _repo.GetAllTodoItemsByStatus(status);
+            var todoItems = _repo.GetAllUserTodoItemsByStatus(userId, status);
             return Ok(_mapper.Map<IEnumerable<TodoItemReadDto>>(todoItems));
-        } 
+        }
 
         [HttpGet("userItems/{userId}", Name = "GetTodoItemsByUser")]
         public ActionResult<IEnumerable<TodoItemReadDto>> GetTodoItemsByUser(string userId)

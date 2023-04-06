@@ -12,49 +12,89 @@
     });
 }
 
-function edit(id) {
-    var dialog = document.getElementById('editItem');
+function showEditForm(id, title, description, priority, date) {
+    document.getElementById('editForm').style.display = 'block';
+
+    var d = new Date(date);
+    var formattedDate = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+
+    document.getElementById('editFormTitle').value = title;
+    document.getElementById('editFormDescription').value = description;
+    document.getElementById('editFormPriority').value = priority;
+    document.getElementById('editFormDate').value = formattedDate;
+
+    document.getElementById('editFormId').value = id;
+}
+
+function submitEditForm() {
+    var id = document.getElementById('editFormId').value;
+    var title = document.getElementById('editFormTitle').value;
+    var description = document.getElementById('editFormDescription').value;
+    var priority = document.getElementById('editFormPriority').value;
+    var date = document.getElementById('editFormDate').value;
+
+    updateTodoItem(id, title, description, priority, date);
+
+    document.getElementById('editForm').style.display = 'none';
+}
+
+function updateTodoItem(id, title, description, priority, date) {
+    var highImg = new Image();
+    highImg.src = "../images/high.png";
+
+    var lowImg = new Image();
+    lowImg.src = "../images/low.png";
+
     var todoItem = document.getElementById(id);
-    var title = todoItem.getElementsByClassName('title')[0].innerHTML;
-    var description = todoItem.getElementsByClassName('description')[0].innerHTML;
-    var status = todoItem.getElementsByClassName('status')[0].innerHTML;
+
+    todoItem.getElementsByClassName('card-title')[0].innerHTML = title;
+    todoItem.getElementsByClassName('card-text')[0].innerHTML = description;
+    
+    var img = todoItem.getElementsByClassName('card-text')[2].getElementsByTagName('img')[0];
+    console.log(priority);
+    img.src = priority == "LOW" ? lowImg.src : highImg.src;
+    img.width = 24;
+    img.height = 24;
+
+    todoItem.getElementsByClassName('card-text')[1].innerHTML = date;
+
+    updateTodoItemInDatabase(id, title, description, priority, date);
+}
+
+function convertDateForAPI(formattedDate) {
+    var date = new Date(formattedDate);
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+    return year + "-" + month + "-" + day;
+}
+
+function updateTodoItemInDatabase(id, title, description, priority, date) {
+    convertedDate = convertDateForAPI(date);
     var json = {
         "Id": id,
         "Title": title,
         "Description": description,
-        "Status": status
+        "Priority": priority == "LOW" ? 1 : 0,
+        "Date": convertedDate,
+        "UserId": "b5453c33-014c-4757-a8e3-f7732954c04c"
     };
-    json = JSON.stringify(json);
-    document.getElementById('editItem').setAttribute('data-json', json);
-}
-
-function showEditForm(title, description, priority, date) {
-    // Set the form's display style to "block" to show it
-    document.getElementById('editForm').style.display = 'block';
-
-    // Set the values of the form's fields
-    document.getElementById('editFormTitle').value = title;
-    document.getElementById('editFormDescription').value = description;
-    document.getElementById('editFormPriority').value = priority;
-    document.getElementById('editFormDate').value = date;
-}
-
-function submitEditForm() {
-    // Get the values from the form fields
-    var title = document.getElementById('editFormTitle').value;
-    var description = document.getElementById('editFormDescription').value;
-    var priority = document.getElementById('editFormPriority').value = priority;
-    var date = document.getElementById('editFormDate').value;
-
-    // Call a function to update the todo item with the new values
-    updateTodoItem(title, description, priority, date);
-
-    // Hide the edit form
-    document.getElementById('editForm').style.display = 'none';
+    console.log(priority);
+    var json = JSON.stringify(json);
+    $.ajax({
+        type: 'PUT',
+        url: '/api/todo/' + id,
+        data: json,
+        contentType: 'application/json'
+    }).done(function () {
+        console.log('Success');
+        location.reload();
+    }).fail(function () {
+        console.log('Error');
+    });
 }
 
 function cancelEditForm() {
-    // Hide the edit form
     document.getElementById('editForm').style.display = 'none';
 }
 

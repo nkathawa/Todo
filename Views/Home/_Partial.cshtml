@@ -22,7 +22,7 @@
                 <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
                 <div style="display: flex; justify-content: flex-end;">
                     <input class="table-cell" type="button" title="Edit" value="&#9998;"
-                        onclick="showEditForm('@todoItem.Title', '@todoItem.Description', '@todoItem.Priority', '@todoItem.Date')" />
+                        onclick="showEditForm('@todoItem.Id', '@todoItem.Title', '@todoItem.Description', '@todoItem.Priority', '@todoItem.Date')" />
                     <input class="table-cell" type="button" title="Delete" value="&#128465;"
                         onclick="remove(@todoItem.Id)" />
                     <input class="table-cell" type="button" title="Archive/Unarchive" value=@Html.Raw(archiveUnarchive)
@@ -55,6 +55,9 @@
         <label for="editFormDate">Date</label>
         <input type="date" class="form-control" id="editFormDate" />
     </div>
+
+    <input type="hidden" id="editFormId">
+
     <!-- Add more fields for editing here -->
     <input type="button" value="Submit" onclick="submitEditForm()" />
     <input type="button" value="Cancel" onclick="cancelEditForm()" />

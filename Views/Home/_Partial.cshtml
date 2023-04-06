@@ -22,7 +22,7 @@
                 <p class="card-text"><small class="text-white">@todoItem.Date</small></p>
                 <div style="display: flex; justify-content: flex-end;">
                     <input class="table-cell" type="button" title="Edit" value="&#9998;"
-                        onclick="showEditForm('@todoItem.Id', '@todoItem.Title', '@todoItem.Description', '@todoItem.Priority', '@todoItem.Date')" />
+                        onclick="showEditForm('@todoItem.Id', '@todoItem.Title', '@todoItem.Description', '@todoItem.Priority', '@todoItem.Date', '@todoItem.Status')" />
                     <input class="table-cell" type="button" title="Delete" value="&#128465;"
                         onclick="remove(@todoItem.Id)" />
                     <input class="table-cell" type="button" title="Archive/Unarchive" value=@Html.Raw(archiveUnarchive)
@@ -67,6 +67,7 @@
                     </div>
 
                     <input type="hidden" id="editFormId">
+                    <input type="hidden" id="editFormStatus">
                 </form>
             </div>
             <div class="modal-footer">

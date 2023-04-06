@@ -12,7 +12,7 @@
     });
 }
 
-function showEditForm(id, title, description, priority, date) {
+function showEditForm(id, title, description, priority, date, status) {
     $('#editModal').modal('show');
     var d = new Date(date);
     var formattedDate = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
@@ -23,6 +23,7 @@ function showEditForm(id, title, description, priority, date) {
     document.getElementById('editFormDate').value = formattedDate;
 
     document.getElementById('editFormId').value = id;
+    document.getElementById('editFormStatus').value = status;
 }
 
 function submitEditForm() {
@@ -31,13 +32,14 @@ function submitEditForm() {
     var description = document.getElementById('editFormDescription').value;
     var priority = document.getElementById('editFormPriority').value;
     var date = document.getElementById('editFormDate').value;
+    var status = document.getElementById('editFormStatus').value;
 
-    updateTodoItem(id, title, description, priority, date);
+    updateTodoItem(id, title, description, priority, date, status);
 
     document.getElementById('editForm').style.display = 'none';
 }
 
-function updateTodoItem(id, title, description, priority, date) {
+function updateTodoItem(id, title, description, priority, date, status) {
     var highImg = new Image();
     highImg.src = "../images/high.png";
 
@@ -57,28 +59,27 @@ function updateTodoItem(id, title, description, priority, date) {
 
     todoItem.getElementsByClassName('card-text')[1].innerHTML = date;
 
-    updateTodoItemInDatabase(id, title, description, priority, date);
+    updateTodoItemInDatabase(id, title, description, priority, date, status);
 }
 
-function convertDateForAPI(formattedDate) {
-    var date = new Date(formattedDate);
-    var year = date.getFullYear();
-    var month = ("0" + (date.getMonth() + 1)).slice(-2);
-    var day = ("0" + date.getDate()).slice(-2);
-    return year + "-" + month + "-" + day;
-}
-
-function updateTodoItemInDatabase(id, title, description, priority, date) {
-    convertedDate = convertDateForAPI(date);
+function updateTodoItemInDatabase(id, title, description, priority, date, status) {
+    // statusNum = 0;
+    if(status == "OPEN") {
+        statusNum = 0;
+    } else if(status == "ARCHIVED") {
+        statusNum = 1;
+    } else {
+        statusNum = 2;
+    }
     var json = {
         "Id": id,
         "Title": title,
         "Description": description,
         "Priority": priority == "LOW" ? 1 : 0,
-        "Date": convertedDate,
+        "Date": date,
+        "Status": statusNum,
         "UserId": "b5453c33-014c-4757-a8e3-f7732954c04c"
     };
-    console.log(priority);
     var json = JSON.stringify(json);
     $.ajax({
         type: 'PUT',

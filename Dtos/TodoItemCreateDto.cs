@@ -12,7 +12,7 @@ namespace Todo.Dtos
         
         public StatusType Status { get; set; }
 
-        public DateTime? Date { get; set; }
+        public DateOnly? Date { get; set; }
 
         public PriorityType? Priority { get; set; }
     }

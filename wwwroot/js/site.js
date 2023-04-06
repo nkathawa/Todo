@@ -13,8 +13,7 @@
 }
 
 function showEditForm(id, title, description, priority, date) {
-    document.getElementById('editForm').style.display = 'block';
-
+    $('#editModal').modal('show');
     var d = new Date(date);
     var formattedDate = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
 

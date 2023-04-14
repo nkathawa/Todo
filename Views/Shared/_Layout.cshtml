@@ -22,26 +22,28 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId=@userId>Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Today" asp-route-userId=@userId>Today</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Completed" asp-route-userId=@userId>Completed</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Archived" asp-route-userId=@userId>Archived</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { @class = "form-inline" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-link">Logout</button>
-                        }
+                        <li class="nav-item ml-auto">
+                            @using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { @class = "form-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-link">Logout</button>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>

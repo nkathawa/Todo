@@ -76,7 +76,7 @@ function updateTodoItemInDatabase(id, title, description, priority, date, status
         "Title": title,
         "Description": description,
         "Priority": priority == "LOW" ? 1 : 0,
-        "Date": date,
+        "Date": date ? date : null,
         "Status": statusNum,
         "UserId": "b5453c33-014c-4757-a8e3-f7732954c04c"
     };

@@ -92,7 +92,7 @@ namespace Todo.Data
                 itemToUpdate.Status = item.Status;
                 itemToUpdate.Title = item.Title;
                 itemToUpdate.Description = item.Description;
-                itemToUpdate.Date = item.Date;
+                itemToUpdate.Date = item.Date ?? null;
                 itemToUpdate.Priority = item.Priority;
 
                 _context.SaveChanges();

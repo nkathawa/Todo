@@ -97,9 +97,9 @@ public class HomeController : Controller
             if (result.Succeeded)
             {
                 _userManager.AddToRoleAsync(user, "Admin").Wait();
+                _repo.SaveChanges();
+                return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
             }
-            _repo.SaveChanges();
-            return RedirectToAction(nameof(HomeController.Index), "Home", new { userId = user.Id });
         }
         return RedirectToAction(nameof(HomeController.Signup), "Home");
     }

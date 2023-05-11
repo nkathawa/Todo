@@ -39,6 +39,57 @@ function submitEditForm() {
     document.getElementById('editForm').style.display = 'none';
 }
 
+function submitFilterForm(event, priority, date) {
+    console.log("hi");
+    event.preventDefault();
+    var cards = document.getElementsByClassName("card");
+
+    date = document.getElementById("date-input").value;
+
+    let prioritySelect = document.getElementById("priority-select");
+    priority = prioritySelect.value;
+    console.log(priority);
+
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var priorityElement = card.querySelector("img");
+        console.log(priorityElement.getAttribute("src"));
+        if(date) {
+            console.log(date);
+            var cardDate = card.dataset.date;
+            console.log(cardDate);
+            var dateParts = cardDate.split("/");
+            var year = dateParts[2];
+            var month = dateParts[0];
+            var day = dateParts[1];
+            var newCardDate = year + "-" + month + "-" + day;
+            console.log(newCardDate);
+
+            if(newCardDate == date) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+            continue;
+        }
+        if(priority === 1) {
+            console.log("yooooooooo11111111");
+            if (priorityElement.getAttribute("src").includes('high')) {
+                card.style.display = "none";
+            } else {
+                card.style.display = "flex";
+            }
+        } else if(priority === 0) {
+            console.log("yooooooooo");
+            if (priorityElement.getAttribute("src").includes('high')) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
+}
+
 function updateTodoItem(id, title, description, priority, date, status) {
     var highImg = new Image();
     highImg.src = "../images/high.png";
@@ -63,7 +114,6 @@ function updateTodoItem(id, title, description, priority, date, status) {
 }
 
 function updateTodoItemInDatabase(id, title, description, priority, date, status) {
-    // statusNum = 0;
     if(status == "OPEN") {
         statusNum = 0;
     } else if(status == "ARCHIVED") {

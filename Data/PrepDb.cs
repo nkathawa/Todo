@@ -52,9 +52,9 @@ namespace Todo.Data
                 Console.WriteLine("--> Seeding data...");
 
                 todoItems.AddRange(
-                    new TodoItem() { Id = 1, Title = "text Mom", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 2, Title = "get groceries", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
-                    new TodoItem() { Id = 3, Title = "clean room", Description = "foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.ARCHIVED }
+                    new TodoItem() { Id = 1, Title = "Foo", Description = "Foo", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 2, Title = "Bar", Description = "Bar", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.OPEN },
+                    new TodoItem() { Id = 3, Title = "Baz", Description = "Baz", Priority = 0, UserId = "b5453c33-014c-4757-a8e3-f7732954c04c", Status = StatusType.ARCHIVED }
                 );
 
                 context.SaveChanges();
